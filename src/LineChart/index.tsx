@@ -37,10 +37,14 @@ import BarAndLineChartsWrapper from '../Components/BarAndLineChartsWrapper';
 import {StripAndLabel} from '../Components/common/StripAndLabel';
 import {Pointer} from '../Components/common/Pointer';
 
+interface LineChartPropsExtends extends LineChartPropsType {
+  topLabelComponent?: Function;
+}
+
 let initialData: Array<lineDataItem> | null = null;
 let animations: Array<Animated.Value> = [];
 
-export const LineChart = (props: LineChartPropsType) => {
+export const LineChart = (props: LineChartPropsExtends) => {
   const scrollRef = props.scrollRef ?? useRef(null);
   const opacValue = useMemo(() => new Animated.Value(0), []);
   const widthValue = useMemo(() => new Animated.Value(0), []);
@@ -666,23 +670,13 @@ export const LineChart = (props: LineChartPropsType) => {
           ) : null}
           {item.showStrip ||
           (focusEnabled && index === selectedIndex && showStripOnFocus) ? (
-            <Rect
-              x={initialSpacing + spacing * index - currentStripWidth / 2 - 1}
-              y={
-                currentStripHeight
-                  ? containerHeight - currentStripHeight + 8
-                  : containerHeight -
-                    dataPointsHeight / 2 +
-                    14 -
-                    (item.value * containerHeight) / maxValue
-              }
-              width={currentStripWidth}
-              height={
-                currentStripHeight ||
-                (item.value * containerHeight) / maxValue - 2 + overflowTop
-              }
-              opacity={currentStripOpacity}
-              fill={currentStripColor}
+            <Line
+              strokeWidth={1}
+              stroke={'#AAAAAA'}
+              strokeDasharray="4, 4"
+              x={initialSpacing + spacing * index - currentStripWidth / 2}
+              y1={0}
+              y2={currentStripHeight}
             />
           ) : null}
           {hideDataPoints ? null : (
@@ -700,6 +694,18 @@ export const LineChart = (props: LineChartPropsType) => {
                       transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
                     },
                   ]}>
+                  {index === selectedIndex && (
+                    <View
+                      style={[
+                        styles.customDataPointContainer,
+                        {
+                          transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+                          bottom: getYOrSecondaryY(item.value),
+                        },
+                      ]}>
+                      {props.topLabelComponent?.()}
+                    </View>
+                  )}
                   {customDataPoint(item, index)}
                 </View>
               ) : null}
@@ -722,8 +728,8 @@ export const LineChart = (props: LineChartPropsType) => {
                         item.onPress
                           ? item.onPress(item, index)
                           : props.onPress
-                            ? props.onPress(item, index)
-                            : null;
+                          ? props.onPress(item, index)
+                          : null;
                       }}
                     />
                   )}
@@ -746,8 +752,8 @@ export const LineChart = (props: LineChartPropsType) => {
                         item.onPress
                           ? item.onPress(item, index)
                           : props.onPress
-                            ? props.onPress(item, index)
-                            : null;
+                          ? props.onPress(item, index)
+                          : null;
                       }}
                     />
                   )}
@@ -774,8 +780,8 @@ export const LineChart = (props: LineChartPropsType) => {
                           (item.dataPointLabelWidth
                             ? item.dataPointLabelWidth + 20
                             : props.dataPointLabelWidth
-                              ? props.dataPointLabelWidth + 20
-                              : 50) /
+                            ? props.dataPointLabelWidth + 20
+                            : 50) /
                             2 +
                           spacing * index,
                       },
@@ -1847,43 +1853,43 @@ export const LineChart = (props: LineChartPropsType) => {
               })
             : null
           : isAnimated
-            ? renderAnimatedLine(
-                zIndex1,
-                points,
-                animatedWidth,
-                thickness1,
-                color1,
-                fillPoints,
-                startFillColor1,
-                endFillColor1,
-                startOpacity1,
-                endOpacity1,
-                strokeDashArray1,
-                props.showArrow1 || props.showArrows,
-                arrow1Points,
-                arrowStrokeWidth1,
-                arrowStrokeColor1,
-                arrowFillColor1,
-                0,
-              )
-            : renderLine(
-                zIndex1,
-                points,
-                thickness1,
-                color1,
-                fillPoints,
-                startFillColor1,
-                endFillColor1,
-                startOpacity1,
-                endOpacity1,
-                strokeDashArray1,
-                props.showArrow1 || props.showArrows,
-                arrow1Points,
-                arrowStrokeWidth1,
-                arrowStrokeColor1,
-                arrowFillColor1,
-                0,
-              )}
+          ? renderAnimatedLine(
+              zIndex1,
+              points,
+              animatedWidth,
+              thickness1,
+              color1,
+              fillPoints,
+              startFillColor1,
+              endFillColor1,
+              startOpacity1,
+              endOpacity1,
+              strokeDashArray1,
+              props.showArrow1 || props.showArrows,
+              arrow1Points,
+              arrowStrokeWidth1,
+              arrowStrokeColor1,
+              arrowFillColor1,
+              0,
+            )
+          : renderLine(
+              zIndex1,
+              points,
+              thickness1,
+              color1,
+              fillPoints,
+              startFillColor1,
+              endFillColor1,
+              startOpacity1,
+              endOpacity1,
+              strokeDashArray1,
+              props.showArrow1 || props.showArrows,
+              arrow1Points,
+              arrowStrokeWidth1,
+              arrowStrokeColor1,
+              arrowFillColor1,
+              0,
+            )}
         {secondaryPoints
           ? isAnimated
             ? renderAnimatedLine(

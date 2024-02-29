@@ -39,6 +39,7 @@ import {Pointer} from '../Components/common/Pointer';
 
 interface LineChartPropsExtends extends LineChartPropsType {
   topLabelComponent?: Function;
+  focusedIndex?: number;
 }
 
 let initialData: Array<lineDataItem> | null = null;
@@ -304,6 +305,10 @@ export const LineChart = (props: LineChartPropsExtends) => {
     lineGradientEndColor,
     barAndLineChartsWrapperProps,
   } = useLineChart({...props, animations});
+
+  useEffect(() => {
+    setSelectedIndex(props?.focusedIndex ?? 0);
+  }, [props?.focusedIndex])
 
   const widthValuesFromSet = useMemo(
     () => dataSet?.map(set => new Animated.Value(0)),

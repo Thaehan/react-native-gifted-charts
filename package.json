@@ -24,7 +24,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "gifted-charts-core": "^0.0.21"
+    "gifted-charts-core": "https://github.com/Thaehan/react-native-gifted-charts"
   },
   "devDependencies": {
     "@babel/core": "^7.22.5",

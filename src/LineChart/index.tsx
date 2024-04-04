@@ -681,7 +681,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
               strokeDasharray="4, 4"
               x={initialSpacing + spacing * index - currentStripWidth / 2}
               y1={0}
-              y2={currentStripHeight}
+              y2={currentStripHeight * 8 / 12}
             />
           ) : null}
           {hideDataPoints ? null : (
@@ -705,7 +705,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
                         styles.customDataPointContainer,
                         {
                           transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
-                          bottom: getYOrSecondaryY(item.value),
+                          bottom: getYOrSecondaryY(item.value) + 7,
                         },
                       ]}>
                       {props.topLabelComponent?.()}
@@ -1072,7 +1072,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
       lineSvgPropsOuter.strokeDasharray = strokeDashArray;
     }
     return (
-      <Svg>
+      <Svg style={{overflow: 'visible', height: '120%'}}>
         {lineGradient && getLineGradientComponent()}
         {points.includes(SEGMENT_START) || points.includes(RANGE_ENTER) ? (
           ar.map((item, index) => {

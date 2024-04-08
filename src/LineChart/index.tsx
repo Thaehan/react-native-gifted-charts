@@ -705,7 +705,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
                         styles.customDataPointContainer,
                         {
                           transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
-                          bottom: getYOrSecondaryY(item.value) + 7,
+                          bottom: getYOrSecondaryY(item.value),
                         },
                       ]}>
                       {props.topLabelComponent?.()}

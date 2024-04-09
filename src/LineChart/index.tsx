@@ -658,7 +658,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
                   x={initialSpacing + (spacing * index - spacing / 2)}
                   y={8}
                   width={spacing}
-                  height={containerHeight - 0}
+                  height={currentStripHeight}
                   fill={'none'}
                 />
               ) : (
@@ -667,7 +667,7 @@ export const LineChart = (props: LineChartPropsExtends) => {
                   x={initialSpacing + (spacing * index - spacing / 2)}
                   y={8}
                   width={spacing}
-                  height={containerHeight}
+                  height={currentStripHeight}
                   fill={'none'}
                 />
               )}
